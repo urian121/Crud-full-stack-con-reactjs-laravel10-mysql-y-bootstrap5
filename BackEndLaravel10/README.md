@@ -102,6 +102,7 @@
             "sexo": "Masculino",
             "telefono": "3213872648",
             "cargo": "Desarrollador",
+            "avatar": "avatar.png",
             "created_at": null,
             "updated_at": null
         },
@@ -113,6 +114,7 @@
             "sexo": "Femenino",
             "telefono": "321999474",
             "cargo": "Asistente",
+            "avatar": "avatar2.png",
             "created_at": null,
             "updated_at": null
         }
@@ -142,7 +144,7 @@
             "cedula": "22222",
             "sexo": "Masculino",
             "telefono": "55555",
-            "cargo": "Desarrollador Backend"
+            "cargo": "Desarrollador Backend",
         }
 
 #### Método PUT ✅
@@ -155,7 +157,8 @@
         "cedula": "22222",
         "sexo": "Masculino",
         "telefono": "55555",
-        "cargo": "Desarrollador Backend"
+        "cargo": "Desarrollador Backend",
+         "avatar": "avatar.png"
         }
 
 #### Método DELETE ✅
@@ -164,36 +167,30 @@
 
 ##### Definir los métodos o funciones para cada una de tus rutas en un controlador
 
-        public function index()
-    {
-        $empleados = Empleado::all();
-        return response()->json($empleados, 200);
-    }
+    public function index(){
+            $empleados = Empleado::all();
+            return response()->json($empleados, 200);
+        }
 
-    public function store(Request $request)
-    {
-
+    public function store(Request $request){
         $empleado = Empleado::create($request->all());
         return response()->json($empleado, 201);
     }
 
 
-    public function show($IdEmpleado)
-    {
+    public function show($IdEmpleado){
         $empleado = Empleado::findOrFail($IdEmpleado);
         return response()->json($empleado, 200);
     }
 
 
-    public function update(Request $request, $IdEmpleado)
-    {
+    public function update(Request $request, $IdEmpleado){
         $empleado = Empleado::findOrFail($IdEmpleado);
         $empleado->update($request->all());
         return response()->json($empleado, 200);
     }
 
-    public function destroy($IdEmpleado)
-    {
+    public function destroy($IdEmpleado){
         $empleado = Empleado::findOrFail($IdEmpleado);
         $empleado->delete();
         return response()->json(['message' => 'Empleado eliminado correctamente'], 200);
@@ -233,75 +230,6 @@
         php artisan migrate
     7. Iniciar el servidor de desarrollo
         php artisan serve
-
-## Lista de Endpoint API
-
-#### Método GET ✅
-
-    👉 http://localhost/API-PHP/
-
-    [
-        {
-            "id": "1",
-            "nombre_alumno": "Braudin",
-            "email_alumno": "braudin@gmail.com",
-            "curso_alumno": "React Native",
-            "sexo_alumno": "M",
-            "habla_ingles": "0",
-            "fecha_registro": "2024-02-18 20:49:51"
-        },
-        {
-            "id": "3",
-            "nombre_alumno": "urian Viera",
-            "email_alumno": "urian@gmail.com",
-            "curso_alumno": "REACT",
-            "sexo_alumno": "M",
-            "habla_ingles": "0",
-            "fecha_registro": "2024-02-18 20:58:43"
-        }
-    ]
-
-#### Método GET ✅
-
-    👉 http://localhost/API-PHP/?id=4
-    {
-        "id": "4",
-        "nombre_alumno": "Brenda Viera",
-        "email_alumno": "brenda@gmail.com",
-        "curso_alumno": "Python",
-        "sexo_alumno": "F",
-        "habla_ingles": "0",
-        "fecha_registro": "2024-02-18 20:59:31"
-    }
-
-#### Método POST ✅
-
-    👉 http://localhost/API-PHP/
-    {
-        "nombre_alumno": "Torres ",
-        "email_alumno": "torres@gmail.com",
-        "curso_alumno": "sql",
-        "sexo_alumno": "F",
-        "habla_ingles": "1",
-        "fecha_registro": "2024-02-18 20:49:51"
-    }
-
-#### Método PUT ✅
-
-    👉 http://localhost/API-PHP/
-    {
-        "id":"6",
-        "nombre_alumno": "nuevo",
-        "email_alumno": "nuevo@gmail.com",
-        "curso_alumno": "React Native",
-        "sexo_alumno": "M",
-        "habla_ingles": "1",
-        "fecha_registro": "2024-02-18 20:49:51"
-    }
-
-#### Método DELETE ✅
-
-    👉 http://localhost/API-PHP/?id=2
 
 ### Expresiones de Gratitud 🎁
 
