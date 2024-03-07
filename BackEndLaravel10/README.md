@@ -59,6 +59,7 @@
             $table->string('sexo')->nullable();
             $table->string('telefono')->nullable();
             $table->string('cargo')->nullable();
+            $table->string('avatar')->nullable();
             $table->timestamps();
         });
 
@@ -72,7 +73,8 @@
         'cedula',
         'sexo',
         'telefono',
-        'cargo'
+        'cargo',
+        'avatar',
     ];
 
 ##### Define las rutas de nuestra API en el archivo routes/api.php
