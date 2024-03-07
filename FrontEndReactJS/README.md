@@ -1,6 +1,6 @@
-# Aplicación de Gestión de Contactos CRUD Full Stack con React, PHP y MySQL
+# Aplicación Full Stack: CRUD con ReactJS, Laravel 10, MySQL y Bootstrap 5
 
-##### La aplicación de Gestión de Contactos CRUD Full Stack con React, PHP y MySQL es un sistema completo para administrar contactos de manera eficiente. Permite realizar operaciones CRUD (Crear, Leer, Actualizar y Eliminar) sobre una base de datos MySQL utilizando un backend desarrollado en PHP. La interfaz de usuario está construida con React, lo que proporciona una experiencia interactiva y receptiva para los usuarios. Con esta aplicación, los usuarios pueden agregar, ver, actualizar y eliminar contactos fácilmente, brindando una solución integral para la gestión de contactos en un entorno web.
+##### CRUD Full Stack con ReactJS, Laravel 10 y MySQL es un proyecto web completo que combina tecnologías modernas en el frontend y backend. Utiliza ReactJS para una interfaz dinámica, Laravel 10 para la lógica de negocio robusta, y MySQL para la persistencia de datos confiable. Con operaciones CRUD completas, ofrece una experiencia de desarrollo eficiente y una gestión de datos intuitiva y ágil.
 
 ##### Instalar axios, para mejorar las solicitudes HTTP a la API
 
@@ -17,7 +17,7 @@
 
 #### Resultado final
 
-![](https://raw.githubusercontent.com/urian121/imagenes-proyectos-github/master/agenda-contactos-react-php-y-mysql.png)
+![](https://raw.githubusercontent.com/urian121/imagenes-proyectos-github/master/crud-full-stack-con-node-y-react.png)
 
 ### Expresiones de Gratitud 🎁
 
