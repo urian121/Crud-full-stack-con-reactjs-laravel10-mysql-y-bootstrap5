@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Empleado;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class EmpleadoController extends Controller
 {
@@ -46,8 +47,12 @@ class EmpleadoController extends Controller
 
     public function show($IdEmpleado)
     {
-        $empleado = Empleado::findOrFail($IdEmpleado);
-        return response()->json($empleado, 200);
+        try {
+            $empleado = Empleado::findOrFail($IdEmpleado);
+            return response()->json($empleado, 200);
+        } catch (ModelNotFoundException $e) {
+            return response()->json(['error' => 'Empleado no encontrado'], 404);
+        }
     }
 
 

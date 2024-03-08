@@ -6,11 +6,9 @@ import { useEffect } from "react";
 import { toast } from "react-toastify";
 
 import DetallesEmpleado from "./DetallesEmpleado";
+import TablaEmpleado from "./TablaEmpleado";
 
-const ListaEmpleados = ({
-  mostrarDetallesEmpleado,
-  setMostarDetallesEmpleado,
-}) => {
+const ListaEmpleados = ({ setMostarEmpleadoEditar, setDataEditarEmpleado }) => {
   const avatarUrl = "http://127.0.0.1:8500/avatars/";
 
   // Importa las variables de estado desde el componente compartido
@@ -19,6 +17,8 @@ const ListaEmpleados = ({
     setEmpleados,
     dataInformacionEmpleado,
     setDataInformacionEmpleado,
+    mostrarDetallesEmpleado,
+    setMostarDetallesEmpleado,
   } = VariablesDeEstados();
 
   useEffect(() => {
@@ -39,7 +39,6 @@ const ListaEmpleados = ({
       const nuevaListaEmpleados = empleados.filter(
         (empleado) => empleado.id !== idEmpleado
       );
-      console.log(nuevaListaEmpleados);
       toast.success("Empleado eliminado correctamente");
       setEmpleados(nuevaListaEmpleados);
     } catch (error) {
@@ -50,14 +49,26 @@ const ListaEmpleados = ({
   /**
    * Función para obtener los detalles de un empleado, de acuerdo a su id
    */
-  const obtenerDetallesEmpleado = async (id) => {
+  const obtenerDetallesEmpleado = async (IdEmpleado) => {
     try {
-      const response = await axios.get(`${URL_API}/${id}`);
-      console.log("Datos del empleado:", response.data);
+      const response = await axios.get(`${URL_API}/${IdEmpleado}`);
+      //console.log("Datos del empleado:", response.data);
       setMostarDetallesEmpleado(true);
       setDataInformacionEmpleado(response.data);
     } catch (error) {
       console.error("Error buscar detalles del empleado:", error);
+    }
+  };
+
+  const obtenerEmpleadoParaEditar = async (IdEmpleado) => {
+    console.log(IdEmpleado);
+    try {
+      const response = await axios.get(`${URL_API}/${IdEmpleado}`);
+      console.log("Datos del empleado para editar:", response.data);
+      setDataEditarEmpleado(response.data);
+      setMostarEmpleadoEditar(true);
+    } catch (error) {
+      console.error("Error al obtener los datos del contacto:", error);
     }
   };
 
@@ -67,6 +78,9 @@ const ListaEmpleados = ({
 
   return mostrarDetallesEmpleado ? (
     <>
+      <h4>
+        Detalles del empleados <hr />
+      </h4>
       <i
         title="Volver a Home"
         className="bi bi-arrow-left-circle float-start"
@@ -77,77 +91,24 @@ const ListaEmpleados = ({
       />
     </>
   ) : (
-    <div className="table-responsive">
-      <table className="table table-striped table-hover">
-        <thead>
-          <tr>
-            <th scope="col">#</th>
-            <th scope="col">Nombre</th>
-            <th scope="col">Edad</th>
-            <th scope="col">Cedula</th>
-            <th scope="col">Sexo</th>
-            <th scope="col">Cargo</th>
-            <th scope="col">Avatar</th>
-            <th scope="col">Acciones</th>
-          </tr>
-        </thead>
-        <tbody>
-          {empleados.map((empleado) => {
-            return (
-              <tr key={empleado.id}>
-                <td>{empleado.id}</td>
-                <td>{empleado.nombre}</td>
-                <td>{empleado.edad}</td>
-                <td>{empleado.cedula}</td>
-                <td>{empleado.sexo}</td>
-                <td>{empleado.cargo}</td>
-                <td>
-                  <img
-                    src={`${avatarUrl}/${empleado.avatar}`}
-                    alt={empleado.avatar}
-                    width="50"
-                    height="50"
-                  />
-                </td>
-                <td>
-                  <ul className="flex_acciones">
-                    <li>
-                      <span
-                        title={`Detalles del empleado ${empleado.nombre}`}
-                        onClick={() => obtenerDetallesEmpleado(empleado.id)}
-                        className="btn btn-success">
-                        <i className="bi bi-binoculars"></i>
-                      </span>
-                    </li>
-                    <li>
-                      <span
-                        title={`Editar datos del empleado ${empleado.nombre}`}
-                        className="btn btn-primary">
-                        <i className="bi bi-pencil-square"></i>
-                      </span>
-                    </li>
-                    <li>
-                      <button
-                        title={`Borrar empleado ${empleado.nombre}`}
-                        className="btn btn-danger"
-                        type="button"
-                        onClick={() => eliminarEmpleado(empleado.id)}>
-                        <i className="bi bi-trash3"></i>
-                      </button>
-                    </li>
-                  </ul>
-                </td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
-    </div>
+    <>
+      <h4>
+        Lista de empleados <hr />
+      </h4>
+      <TablaEmpleado
+        empleados={empleados}
+        avatarUrl={avatarUrl}
+        eliminarEmpleado={eliminarEmpleado}
+        obtenerDetallesEmpleado={obtenerDetallesEmpleado}
+        obtenerEmpleadoParaEditar={obtenerEmpleadoParaEditar}
+      />
+    </>
   );
 };
 
 ListaEmpleados.propTypes = {
-  mostrarDetallesEmpleado: PropTypes.bool.isRequired,
-  setMostarDetallesEmpleado: PropTypes.func,
+  URL_API: PropTypes.string,
+  setMostarEmpleadoEditar: PropTypes.func.isRequired,
+  setDataEditarEmpleado: PropTypes.func.isRequired,
 };
 export default ListaEmpleados;

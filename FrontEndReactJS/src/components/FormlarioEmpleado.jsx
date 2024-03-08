@@ -9,7 +9,12 @@ import SelectCargoEmpleado from "./SelectCargoEmpleado";
 import SelectFile from "./SelectFile";
 import Loading from "./Loading";
 
-const FormlarioEmpleado = ({ URL_API }) => {
+const FormlarioEmpleado = ({
+  URL_API,
+  mostrarEmpleadoEditar,
+  setMostarEmpleadoEditar,
+  dataEditarEmpleado,
+}) => {
   const {
     loading,
     setLoading,
@@ -26,7 +31,7 @@ const FormlarioEmpleado = ({ URL_API }) => {
     empleados,
     setEmpleados,
   } = VariablesDeEstados();
-  console.log(`edad: ${edad}`);
+  console.log("*+*+*+", dataEditarEmpleado);
 
   const manejarCambioInput = (e) => {
     setDatosInputs({
@@ -101,9 +106,27 @@ const FormlarioEmpleado = ({ URL_API }) => {
       toast.error("Debe seleccionar una imagen");
     }
   };
+  const volveDesdeEditar = () => {
+    setMostarEmpleadoEditar(false);
+  };
 
   return (
     <>
+      {mostrarEmpleadoEditar ? (
+        <>
+          <i
+            className="bi bi-arrow-left-circle"
+            onClick={volveDesdeEditar}
+            style={{ cursor: "pointer", float: "left" }}></i>
+          <h4>
+            Editar datos <del></del> empleado <hr />
+          </h4>
+        </>
+      ) : (
+        <h4>
+          Registrar nuevo empleado <hr />
+        </h4>
+      )}
       <form
         onSubmit={handleSubmitForm}
         method="POST"
@@ -114,6 +137,7 @@ const FormlarioEmpleado = ({ URL_API }) => {
             type="text"
             name="nombre"
             className="form-control"
+            value={dataEditarEmpleado?.nombre || ""}
             required
             onChange={manejarCambioInput}
           />
@@ -206,6 +230,9 @@ const FormlarioEmpleado = ({ URL_API }) => {
 
 FormlarioEmpleado.propTypes = {
   URL_API: PropTypes.string.isRequired,
+  mostrarEmpleadoEditar: PropTypes.bool.isRequired,
+  dataEditarEmpleado: PropTypes.object,
+  setMostarEmpleadoEditar: PropTypes.func,
 };
 
 export default FormlarioEmpleado;
