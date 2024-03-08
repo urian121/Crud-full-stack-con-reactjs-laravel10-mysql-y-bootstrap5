@@ -1,14 +1,18 @@
+import PropTypes from "prop-types";
 import axios from "axios";
 import { toast } from "./toastConfig";
 import VariablesDeEstados from "./VariablesDeEstados";
+import "../styles/loading.css";
 
-import PropTypes from "prop-types";
 import SelectEdad from "./SelectEdad";
 import SelectCargoEmpleado from "./SelectCargoEmpleado";
 import SelectFile from "./SelectFile";
+import Loading from "./Loading";
 
 const FormlarioEmpleado = ({ URL_API }) => {
   const {
+    loading,
+    setLoading,
     sexo,
     setSexo,
     edad,
@@ -49,6 +53,7 @@ const FormlarioEmpleado = ({ URL_API }) => {
 
   const handleSubmitForm = async (e) => {
     e.preventDefault();
+    setLoading(true);
 
     // Crear una copia de los datos del formulario
     const datosConImagen = {
@@ -71,6 +76,11 @@ const FormlarioEmpleado = ({ URL_API }) => {
           },
         });
 
+        // Simulamos un envío de formulario asíncrono
+        setTimeout(() => {
+          setLoading(false);
+        }, 1500);
+
         toast.success("Empleado agregado correctamente");
         // Reiniciando valores del formulario
         setSelectedFile(null);
@@ -79,7 +89,9 @@ const FormlarioEmpleado = ({ URL_API }) => {
           cedula: "",
           telefono: "",
         });
-        console.log("**", datosConImagen);
+        setSexo("masculino");
+        setCargo("");
+        setEdad("");
         setEmpleados([...empleados, datosConImagen]);
       } catch (error) {
         console.error("Error al agregar empleado:", error);
@@ -186,6 +198,8 @@ const FormlarioEmpleado = ({ URL_API }) => {
           </button>
         </div>
       </form>
+
+      {loading && <Loading />}
     </>
   );
 };

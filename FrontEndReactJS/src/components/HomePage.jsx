@@ -1,16 +1,20 @@
 import FormlarioEmpleado from "./FormlarioEmpleado";
 import ListaEmpleados from "./ListaEmpleados";
+import VariablesDeEstados from "./VariablesDeEstados";
 
 import { ToastContainer } from "./toastConfig";
 
 const URL_API = "http://127.0.0.1:8500/api/empleados";
 
 const HomePage = () => {
+  const { mostrarDetallesEmpleado, setMostarDetallesEmpleado } =
+    VariablesDeEstados();
+
   return (
     <>
       <ToastContainer />
       <div className="row justify-content-md-center">
-        <div className="col-md-4">
+        <div className="col-md-4 border_right">
           <h4>
             Registrar nuevo empleado <hr />
           </h4>
@@ -21,7 +25,10 @@ const HomePage = () => {
           <h4>
             Lista de empleados <hr />
           </h4>
-          <ListaEmpleados />
+          <ListaEmpleados
+            mostrarDetallesEmpleado={mostrarDetallesEmpleado}
+            setMostarDetallesEmpleado={setMostarDetallesEmpleado}
+          />
         </div>
       </div>
     </>

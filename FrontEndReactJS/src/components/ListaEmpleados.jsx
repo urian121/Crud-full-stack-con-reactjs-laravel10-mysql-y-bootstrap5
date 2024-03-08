@@ -1,14 +1,25 @@
 import axios from "axios";
-
+import PropTypes from "prop-types";
 import { obtenerEmpleados, URL_API } from "./funciones";
 import VariablesDeEstados from "./VariablesDeEstados";
 import { useEffect } from "react";
 import { toast } from "react-toastify";
 
-const ListaEmpleados = () => {
+import DetallesEmpleado from "./DetallesEmpleado";
+
+const ListaEmpleados = ({
+  mostrarDetallesEmpleado,
+  setMostarDetallesEmpleado,
+}) => {
+  const avatarUrl = "http://127.0.0.1:8500/avatars/";
+
   // Importa las variables de estado desde el componente compartido
-  const { empleados, setEmpleados } = VariablesDeEstados();
-  console.log(empleados);
+  const {
+    empleados,
+    setEmpleados,
+    dataInformacionEmpleado,
+    setDataInformacionEmpleado,
+  } = VariablesDeEstados();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -19,6 +30,9 @@ const ListaEmpleados = () => {
     fetchData();
   }, [setEmpleados]); // Se ejecuta solo una vez al montar el componente
 
+  /**
+   * Función para eliminar un empleado
+   */
   const eliminarEmpleado = async (idEmpleado) => {
     try {
       await axios.delete(`${URL_API}/${idEmpleado}`);
@@ -33,8 +47,36 @@ const ListaEmpleados = () => {
     }
   };
 
-  const avatarUrl = "http://127.0.0.1:8500/avatars/";
-  return (
+  /**
+   * Función para obtener los detalles de un empleado, de acuerdo a su id
+   */
+  const obtenerDetallesEmpleado = async (id) => {
+    try {
+      const response = await axios.get(`${URL_API}/${id}`);
+      console.log("Datos del empleado:", response.data);
+      setMostarDetallesEmpleado(true);
+      setDataInformacionEmpleado(response.data);
+    } catch (error) {
+      console.error("Error buscar detalles del empleado:", error);
+    }
+  };
+
+  const volverHome = () => {
+    setMostarDetallesEmpleado(false);
+  };
+
+  return mostrarDetallesEmpleado ? (
+    <>
+      <i
+        title="Volver a Home"
+        className="bi bi-arrow-left-circle float-start"
+        onClick={volverHome}></i>
+      <DetallesEmpleado
+        dataInformacionEmpleado={dataInformacionEmpleado}
+        avatarUrl={avatarUrl}
+      />
+    </>
+  ) : (
     <div className="table-responsive">
       <table className="table table-striped table-hover">
         <thead>
@@ -70,19 +112,19 @@ const ListaEmpleados = () => {
                 <td>
                   <ul className="flex_acciones">
                     <li>
-                      <a
-                        title="Ver detalles del empleado"
-                        href="{{ route('myShow', $empleado->id)}}"
+                      <span
+                        title={`Detalles del empleado ${empleado.nombre}`}
+                        onClick={() => obtenerDetallesEmpleado(empleado.id)}
                         className="btn btn-success">
                         <i className="bi bi-binoculars"></i>
-                      </a>
+                      </span>
                     </li>
                     <li>
-                      <a
-                        href="{{ route('myEdit', $empleado->id) }}"
+                      <span
+                        title={`Editar datos del empleado ${empleado.nombre}`}
                         className="btn btn-primary">
                         <i className="bi bi-pencil-square"></i>
-                      </a>
+                      </span>
                     </li>
                     <li>
                       <button
@@ -104,4 +146,8 @@ const ListaEmpleados = () => {
   );
 };
 
+ListaEmpleados.propTypes = {
+  mostrarDetallesEmpleado: PropTypes.bool.isRequired,
+  setMostarDetallesEmpleado: PropTypes.func,
+};
 export default ListaEmpleados;
