@@ -231,6 +231,11 @@
     7. Iniciar el servidor de desarrollo
         php artisan serve
 
+#### Importante:
+
+    Si vas a correr el proycto en una Mac debes darle permiso todos los permisos a la carpeta 'avatars' esta esta ubicada en 'BackEndLaravel10/public/avatars'
+    todo esto con el fin de tener permisos para guadar imagenes del empleado.
+
 ### Expresiones de Gratitud 🎁
 
     Comenta a otros sobre este proyecto 📢

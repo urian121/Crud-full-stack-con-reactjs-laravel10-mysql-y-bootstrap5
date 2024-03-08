@@ -1,30 +1,11 @@
-import { useState } from "react";
-
 import FormlarioEmpleado from "./FormlarioEmpleado";
 import ListaEmpleados from "./ListaEmpleados";
 
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer } from "./toastConfig";
+
+const URL_API = "http://127.0.0.1:8500/api/empleados";
 
 const HomePage = () => {
-  const [datosInputs, setdatosInputs] = useState({
-    nombre: "",
-    cedula: "",
-    telefono: "",
-  });
-
-  // Función para manejar cambios en el sexo del alumno
-
-  const manejarCambioInput = (e) => {
-    setdatosInputs({
-      ...datosInputs,
-      [e.target.name]: e.target.value,
-    });
-    console.log(e.target.name, e.target.value);
-    console.log(datosInputs);
-    toast.success("Imagen subida correctamente");
-  };
-
   return (
     <>
       <ToastContainer />
@@ -33,7 +14,7 @@ const HomePage = () => {
           <h4>
             Registrar nuevo empleado <hr />
           </h4>
-          <FormlarioEmpleado manejarCambioInput={manejarCambioInput} />
+          <FormlarioEmpleado URL_API={URL_API} />
         </div>
 
         <div className="col-md-8">

@@ -1,7 +1,5 @@
-import { useState } from "react";
-
-const SelectCargo = () => {
-  const [cargo, setCargo] = useState("");
+import PropTypes from "prop-types";
+const SelectCargo = ({ cargo, setCargo }) => {
   const cargos = [
     "Gerente",
     "Asistente",
@@ -18,8 +16,8 @@ const SelectCargo = () => {
       {cargo}
     </option>
   ));
-
   console.log(`Cargo: ${cargo}`);
+
   return (
     <select
       name="cargo"
@@ -27,10 +25,15 @@ const SelectCargo = () => {
       required
       value={cargo}
       onChange={(e) => setCargo(e.target.value)}>
-      <option value="">Seleccionar el Cargo</option>
+      <option value="">Seleccione el Cargo</option>
       {options}
     </select>
   );
+};
+
+SelectCargo.propTypes = {
+  cargo: PropTypes.string.isRequired,
+  setCargo: PropTypes.func.isRequired,
 };
 
 export default SelectCargo;

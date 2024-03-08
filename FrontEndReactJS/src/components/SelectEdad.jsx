@@ -1,9 +1,11 @@
-import { useState } from "react";
+import PropTypes from "prop-types";
+const SelectEdad = ({ edad, setEdad }) => {
+  const handleChangeEdad = (e) => {
+    setEdad(e.target.value);
+    console.log(`Edad seleccionada: ${e.target.value}`);
+  };
 
-const SelectEdad = () => {
-  const [edad, setEdad] = useState("");
   const options = [];
-  console.log(`Edad: ${edad}`);
 
   for (let i = 18; i <= 50; i++) {
     options.push(
@@ -19,11 +21,15 @@ const SelectEdad = () => {
       name="edad"
       required
       value={edad}
-      onChange={(e) => setEdad(e.target.value)}>
-      <option value="">Edad</option>
+      onChange={(e) => handleChangeEdad(e)}>
+      <option value="">Seleccione la Edad</option>
       {options}
     </select>
   );
 };
 
+SelectEdad.propTypes = {
+  edad: PropTypes.string.isRequired,
+  setEdad: PropTypes.func.isRequired,
+};
 export default SelectEdad;

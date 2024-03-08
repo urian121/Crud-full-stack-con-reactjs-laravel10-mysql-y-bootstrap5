@@ -1,15 +1,40 @@
-import { useState } from "react";
+import axios from "axios";
+import { toast } from "./toastConfig";
+import VariablesDeEstados from "./VariablesDeEstados";
+
 import PropTypes from "prop-types";
 import SelectEdad from "./SelectEdad";
 import SelectCargoEmpleado from "./SelectCargoEmpleado";
 import SelectFile from "./SelectFile";
 
-const FormlarioEmpleado = ({ manejarCambioInput }) => {
-  const [sexo, setSexo] = useState("masculino");
-  const [selectedFile, setSelectedFile] = useState(null);
+const FormlarioEmpleado = ({ URL_API }) => {
+  const {
+    sexo,
+    setSexo,
+    edad,
+    setEdad,
+    cargo,
+    setCargo,
+    selectedFile,
+    setSelectedFile,
+    datosInputs,
+    setDatosInputs,
+    empleados,
+    setEmpleados,
+  } = VariablesDeEstados();
+  console.log(`edad: ${edad}`);
+
+  const manejarCambioInput = (e) => {
+    setDatosInputs({
+      ...datosInputs,
+      [e.target.name]: e.target.value,
+    });
+    //console.log(e.target.name, e.target.value);
+  };
 
   /**
-   * La función handleFileChange captura el primer archivo seleccionado por el usuario desde un campo de entrada de archivos y lo establece como el archivo seleccionado en el estado del componente.
+   * La función handleFileChange captura el primer archivo seleccionado por el usuario desde un campo de entrada de archivos
+   * y lo establece como el archivo seleccionado en el estado del componente.
    */
   const handleFileChange = (e) => {
     console.log(e.target.files[0]);
@@ -21,10 +46,54 @@ const FormlarioEmpleado = ({ manejarCambioInput }) => {
     setSexo(e.target.value);
     console.log(sexo);
   };
+
+  const handleSubmitForm = async (e) => {
+    e.preventDefault();
+
+    // Crear una copia de los datos del formulario
+    const datosConImagen = {
+      ...datosInputs,
+      sexo: sexo,
+      cargo: cargo,
+      edad: edad,
+    };
+    console.log("Datos del formulario:", datosConImagen);
+
+    // Agregar la imagen al objeto datos si existe
+    if (selectedFile) {
+      datosConImagen.avatar = selectedFile;
+    }
+    if (selectedFile) {
+      try {
+        await axios.post(URL_API, datosConImagen, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        });
+
+        toast.success("Empleado agregado correctamente");
+        // Reiniciando valores del formulario
+        setSelectedFile(null);
+        setDatosInputs({
+          nombre: "",
+          cedula: "",
+          telefono: "",
+        });
+        console.log("**", datosConImagen);
+        setEmpleados([...empleados, datosConImagen]);
+      } catch (error) {
+        console.error("Error al agregar empleado:", error);
+      }
+    } else {
+      console.log("No se ha seleccionado ningún archivo.");
+      toast.error("Debe seleccionar una imagen");
+    }
+  };
+
   return (
     <>
       <form
-        action="{{ route('myStore') }}"
+        onSubmit={handleSubmitForm}
         method="POST"
         encType="multipart/form-data">
         <div className="mb-3">
@@ -50,7 +119,7 @@ const FormlarioEmpleado = ({ manejarCambioInput }) => {
         <div className="row">
           <div className="col-md-6">
             <label className="form-label">Seleccione la edad</label>
-            <SelectEdad />
+            <SelectEdad edad={edad} setEdad={setEdad} />
           </div>
 
           <div className="col-md-6">
@@ -100,7 +169,7 @@ const FormlarioEmpleado = ({ manejarCambioInput }) => {
 
         <div className="mb-3">
           <label className="form-label">Seleccione el Cargo</label>
-          <SelectCargoEmpleado />
+          <SelectCargoEmpleado cargo={cargo} setCargo={setCargo} />
         </div>
 
         <div className="mb-3 mt-4">
@@ -122,7 +191,7 @@ const FormlarioEmpleado = ({ manejarCambioInput }) => {
 };
 
 FormlarioEmpleado.propTypes = {
-  manejarCambioInput: PropTypes.func.isRequired,
+  URL_API: PropTypes.string.isRequired,
 };
 
 export default FormlarioEmpleado;

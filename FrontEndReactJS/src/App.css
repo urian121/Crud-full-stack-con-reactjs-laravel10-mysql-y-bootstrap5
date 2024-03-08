@@ -21,6 +21,13 @@ label {
 .btn_add:hover {
   opacity: 0.8;
 }
+
+.flex_acciones {
+  list-style-type: none;
+  text-decoration: none;
+  display: flex;
+  justify-content: space-around;
+}
 .btn-success {
   border: 1px solid #06c046 !important;
   background-color: #06c046 !important;
@@ -33,11 +40,4 @@ hr {
 }
 .bi-arrow-right-circle {
   font-size: 30px;
-}
-
-.flex_acciones {
-  list-style-type: none;
-  text-decoration: none;
-  display: flex;
-  justify-content: space-around;
 }
