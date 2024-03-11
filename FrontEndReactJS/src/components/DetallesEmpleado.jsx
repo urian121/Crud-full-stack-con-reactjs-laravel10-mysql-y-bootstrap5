@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 
 const DetallesEmpleado = ({ dataInformacionEmpleado, avatarUrl }) => {
-  console.log("-detalles*---", dataInformacionEmpleado);
+  // console.log("-detalles*---", dataInformacionEmpleado);
 
   if (!dataInformacionEmpleado) {
     return null;

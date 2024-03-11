@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-const SelectCargo = ({ cargo, setCargo }) => {
+const SelectCargo = ({ register }) => {
   const cargos = [
     "Gerente",
     "Asistente",
@@ -16,15 +16,12 @@ const SelectCargo = ({ cargo, setCargo }) => {
       {cargo}
     </option>
   ));
-  console.log(`Cargo: ${cargo}`);
 
   return (
     <select
-      name="cargo"
+      {...register("cargo", { required: true })}
       className="form-select"
-      required
-      value={cargo}
-      onChange={(e) => setCargo(e.target.value)}>
+      required>
       <option value="">Seleccione el Cargo</option>
       {options}
     </select>
@@ -32,8 +29,7 @@ const SelectCargo = ({ cargo, setCargo }) => {
 };
 
 SelectCargo.propTypes = {
-  cargo: PropTypes.string.isRequired,
-  setCargo: PropTypes.func.isRequired,
+  register: PropTypes.func.isRequired,
 };
 
 export default SelectCargo;

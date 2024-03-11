@@ -1,12 +1,6 @@
 import PropTypes from "prop-types";
-const SelectEdad = ({ edad, setEdad }) => {
-  const handleChangeEdad = (e) => {
-    setEdad(e.target.value);
-    console.log(`Edad seleccionada: ${e.target.value}`);
-  };
-
+const SelectEdad = ({ register }) => {
   const options = [];
-
   for (let i = 18; i <= 50; i++) {
     options.push(
       <option key={i} value={i}>
@@ -18,10 +12,8 @@ const SelectEdad = ({ edad, setEdad }) => {
   return (
     <select
       className="form-select"
-      name="edad"
-      required
-      value={edad}
-      onChange={(e) => handleChangeEdad(e)}>
+      {...register("edad", { required: true })}
+      required>
       <option value="">Seleccione la Edad</option>
       {options}
     </select>
@@ -29,7 +21,6 @@ const SelectEdad = ({ edad, setEdad }) => {
 };
 
 SelectEdad.propTypes = {
-  edad: PropTypes.string.isRequired,
-  setEdad: PropTypes.func.isRequired,
+  register: PropTypes.func.isRequired,
 };
 export default SelectEdad;

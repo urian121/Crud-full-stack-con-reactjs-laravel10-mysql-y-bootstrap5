@@ -1,0 +1,56 @@
+value={dataEditarEmpleado ? dataEditarEmpleado.cedula : ""}
+
+value={dataEditarEmpleado ? dataEditarEmpleado.nombre : ""}
+
+value={dataEditarEmpleado ? dataEditarEmpleado.telefono : ""}
+
+const handleSubmitUpdateForm = async (e) => {
+    e.preventDefault();
+
+    /*
+   
+    setLoading(true);
+
+    // Crear una copia de los datos del formulario
+    const datosConImagen = {
+      ...dataEditarEmpleado,
+      sexo: sexo,
+      cargo: cargo,
+      edad: edad,
+    };
+    //console.log("Datos del formulario:", datosConImagen);
+
+    // Agregar la imagen al objeto datos si existe
+    if (selectedFile) {
+      datosConImagen.avatar = selectedFile;
+    }
+
+    try {
+      await axios.put(`${URL_API}/${dataEditarEmpleado.id}`, datosConImagen, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+      // Simulamos un envío de formulario asíncrono
+      setTimeout(() => {
+        setLoading(false);
+      }, 1500);
+
+      toast.success("Empleado actualizado correctamente");
+      // Reiniciando valores del formulario
+      setSelectedFile(null);
+      setMostarEmpleadoEditar(false);
+      setSexo("masculino");
+      setCargo("");
+      setEdad("");
+    } catch (error) {
+      console.error("Error al actualizar el empleado:", error);
+    }
+    */
+  };
+
+
+  Nota: cuando haga un registro hacer una consulta que extraiga el ultimo insert, eso lo agrego al array de empleads, 
+  con el finde no actualizar todos los registros sino solo agregar ese nuevo registro.
+
+  O desde el backend cuando se cree un nuevo registro pues se retorne dicho registro y eso lo agregamod a la tabla, haciendo una copia de la misma y agregando ese nuevo objeto.

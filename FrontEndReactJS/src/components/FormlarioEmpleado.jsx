@@ -1,175 +1,220 @@
 import PropTypes from "prop-types";
+import { obtenerEmpleados } from "./funciones";
 import axios from "axios";
+import { useForm } from "react-hook-form";
+
 import { toast } from "./toastConfig";
 import VariablesDeEstados from "./VariablesDeEstados";
 import "../styles/loading.css";
 
 import SelectEdad from "./SelectEdad";
 import SelectCargoEmpleado from "./SelectCargoEmpleado";
-import SelectFile from "./SelectFile";
 import Loading from "./Loading";
 
 const FormlarioEmpleado = ({
   URL_API,
+  setEmpleados,
   mostrarEmpleadoEditar,
   setMostarEmpleadoEditar,
   dataEditarEmpleado,
+  avatarUrl,
 }) => {
+  const { loading, setLoading } = VariablesDeEstados();
+
   const {
-    loading,
-    setLoading,
-    sexo,
-    setSexo,
-    edad,
-    setEdad,
-    cargo,
-    setCargo,
-    selectedFile,
-    setSelectedFile,
-    datosInputs,
-    setDatosInputs,
-    empleados,
-    setEmpleados,
-  } = VariablesDeEstados();
-  console.log("*+*+*+", dataEditarEmpleado);
+    register,
+    handleSubmit,
+    setValue,
+    /* formState: { errors }, */
+  } = useForm();
 
-  const manejarCambioInput = (e) => {
-    setDatosInputs({
-      ...datosInputs,
-      [e.target.name]: e.target.value,
-    });
-    //console.log(e.target.name, e.target.value);
-  };
+  setValue("id", dataEditarEmpleado?.id || "");
+  setValue("nombre", dataEditarEmpleado?.nombre || "");
+  setValue("cedula", dataEditarEmpleado?.cedula || "");
+  setValue("sexo", dataEditarEmpleado?.sexo || "masculino");
+  setValue("telefono", dataEditarEmpleado?.telefono || "");
+  setValue("cargo", dataEditarEmpleado?.cargo || "");
+  setValue("edad", dataEditarEmpleado?.edad || "");
+  setValue("avatar", dataEditarEmpleado?.avatar || "");
 
-  /**
-   * La función handleFileChange captura el primer archivo seleccionado por el usuario desde un campo de entrada de archivos
-   * y lo establece como el archivo seleccionado en el estado del componente.
-   */
-  const handleFileChange = (e) => {
-    console.log(e.target.files[0]);
-    setSelectedFile(e.target.files[0]);
-    console.log(selectedFile);
-  };
-
-  const handleChangeSexo = (e) => {
-    setSexo(e.target.value);
-    console.log(sexo);
-  };
-
-  const handleSubmitForm = async (e) => {
-    e.preventDefault();
+  const customHandleSubmit = async (data) => {
     setLoading(true);
 
-    // Crear una copia de los datos del formulario
-    const datosConImagen = {
-      ...datosInputs,
-      sexo: sexo,
-      cargo: cargo,
-      edad: edad,
-    };
-    console.log("Datos del formulario:", datosConImagen);
+    const formData = new FormData();
+    formData.append("nombre", data.nombre);
+    formData.append("cedula", data.cedula);
+    formData.append("sexo", data.sexo);
+    formData.append("telefono", data.telefono);
+    formData.append("edad", data.edad);
+    formData.append("cargo", data.cargo);
+    formData.append("avatar", data.avatar[0]);
 
-    // Agregar la imagen al objeto datos si existe
-    if (selectedFile) {
-      datosConImagen.avatar = selectedFile;
+    try {
+      await axios.post(URL_API, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+
+      // Simulamos un envío de formulario asíncrono
+      setTimeout(() => {
+        setLoading(false);
+      }, 1500);
+
+      toast.success("Empleado agregado correctamente");
+      // Consulto la API para obtener la lista de empleados actualizada y actualizo la lista de empleados
+      const empleadosData = await obtenerEmpleados();
+      setEmpleados(empleadosData);
+    } catch (error) {
+      console.error("Error al agregar empleado:", error);
     }
-    if (selectedFile) {
-      try {
-        await axios.post(URL_API, datosConImagen, {
+  };
+
+  const volverAlHomeDesdeEditar = () => {
+    setMostarEmpleadoEditar(false);
+    console.log("volver al home");
+    /**Reiniciando los valores */
+    // setValue("nombre", "");
+    setValue("nombre", (dataEditarEmpleado.nombre = ""));
+    setValue("cedula", (dataEditarEmpleado.cedula = ""));
+    setValue("sexo", dataEditarEmpleado?.sexo);
+    setValue("telefono", (dataEditarEmpleado.telefono = ""));
+    setValue("cargo", (dataEditarEmpleado.cargo = ""));
+    setValue("edad", (dataEditarEmpleado.edad = ""));
+    setValue("avatar", (dataEditarEmpleado.avatar = ""));
+  };
+
+  const handleSubmitUpdateForm = async (data) => {
+    //setLoading(true);
+
+    const formData = new FormData();
+    formData.append("id", data.id);
+    formData.append("nombre", data.nombre);
+    formData.append("cedula", data.cedula);
+    formData.append("sexo", data.sexo);
+    formData.append("telefono", data.telefono);
+    formData.append("edad", data.edad);
+    formData.append("cargo", data.cargo);
+    formData.append("avatar", data.avatar[0]);
+
+    // Verificar si se proporciona una nueva imagen
+    //if (data.avatar[0]) {
+    // Verifica si data.avatar[0] es igual a data.avatar
+
+    /* if (data.avatar.length > 0 && data.avatar[0] === data.avatar) {
+      console.log("data.avatar[0] es igual a data.avatar");
+    } else {
+      console.log("data.avatar[0] no es igual a data.avatar");
+    }
+    */
+
+    // Verificar si se proporciona una nueva imagen
+    console.log(data.avatar);
+    if (data.avatar && data.avatar[0]) {
+      console.log("c1");
+      formData.append("avatar", data.avatar[0]);
+    } else {
+      console.log("c2");
+      formData.delete("avatar");
+    }
+    // Elimina el campo "id" del FormData
+    formData.delete("id");
+    console.log(formData);
+
+    /*
+    try {
+      //let url = `${URL_API}/${data.id}`;
+      // Si hay una imagen adjunta, usar formData
+      if (formData.avatar && formData.avatar[0]) {
+        console.log("caso 2");
+        await axios.put(`${URL_API}/${data.id}`, formData, {
           headers: {
             "Content-Type": "multipart/form-data",
           },
         });
-
-        // Simulamos un envío de formulario asíncrono
-        setTimeout(() => {
-          setLoading(false);
-        }, 1500);
-
-        toast.success("Empleado agregado correctamente");
-        // Reiniciando valores del formulario
-        setSelectedFile(null);
-        setDatosInputs({
-          nombre: "",
-          cedula: "",
-          telefono: "",
-        });
-        setSexo("masculino");
-        setCargo("");
-        setEdad("");
-        setEmpleados([...empleados, datosConImagen]);
-      } catch (error) {
-        console.error("Error al agregar empleado:", error);
+      } else {
+        console.log("caso 1");
+        // Si no hay una imagen adjunta, no necesitas enviar formData
+        await axios.put(`${URL_API}/${data.id}`, formData);
       }
-    } else {
-      console.log("No se ha seleccionado ningún archivo.");
-      toast.error("Debe seleccionar una imagen");
+      // Simulamos un envío de formulario asíncrono
+      setTimeout(() => {
+        setLoading(false);
+      }, 1500);
+
+      toast.success("Empleado actualizado correctamente");
+    } catch (error) {
+      console.error("Error al actualizar el empleado:", error);
     }
-  };
-  const volveDesdeEditar = () => {
-    setMostarEmpleadoEditar(false);
+    */
   };
 
   return (
     <>
       {mostrarEmpleadoEditar ? (
-        <>
+        <h4>
           <i
-            className="bi bi-arrow-left-circle"
-            onClick={volveDesdeEditar}
-            style={{ cursor: "pointer", float: "left" }}></i>
-          <h4>
-            Editar datos <del></del> empleado <hr />
-          </h4>
-        </>
+            title="Volver a Home"
+            className="bi bi-arrow-left-circle float-start"
+            onClick={volverAlHomeDesdeEditar}></i>
+          Editar empleado <hr />
+        </h4>
       ) : (
         <h4>
-          Registrar nuevo empleado <hr />
+          Agregar nuevo empleado <hr />
         </h4>
       )}
       <form
-        onSubmit={handleSubmitForm}
+        className="px-5"
+        onSubmit={
+          mostrarEmpleadoEditar
+            ? handleSubmit(handleSubmitUpdateForm)
+            : handleSubmit(customHandleSubmit)
+        }
         method="POST"
         encType="multipart/form-data">
+        {mostrarEmpleadoEditar && (
+          <input
+            type="text"
+            {...register("id", { required: true })}
+            className="form-control"
+            hidden
+            disabled
+          />
+        )}
         <div className="mb-3">
           <label className="form-label">Nombre</label>
           <input
             type="text"
-            name="nombre"
+            {...register("nombre", { required: true })}
             className="form-control"
-            value={dataEditarEmpleado?.nombre || ""}
             required
-            onChange={manejarCambioInput}
           />
         </div>
         <div className="mb-3">
           <label className="form-label">Cédula (NIT)</label>
           <input
-            type="text"
-            name="cedula"
+            type="number"
+            {...register("cedula", { required: true })}
             className="form-control"
             required
-            onChange={manejarCambioInput}
           />
         </div>
         <div className="row">
           <div className="col-md-6">
             <label className="form-label">Seleccione la edad</label>
-            <SelectEdad edad={edad} setEdad={setEdad} />
+            <SelectEdad register={register} />
           </div>
-
           <div className="col-md-6">
             <label className="form-label">Sexo del alumno</label>
             <div className="form-check">
               <input
                 className="form-check-input"
                 type="radio"
-                name="sexo_alumno"
+                {...register("sexo", { required: true })}
                 id="masculino"
                 value="masculino"
-                checked={sexo === "masculino"}
-                onChange={handleChangeSexo}
-                required
+                defaultChecked // Establecer este radio como seleccionado por defecto
               />
               <label className="form-check-label" htmlFor="masculino">
                 Masculino
@@ -179,11 +224,9 @@ const FormlarioEmpleado = ({
               <input
                 className="form-check-input"
                 type="radio"
-                name="sexo_alumno"
+                {...register("sexo")}
                 id="femenino"
                 value="femenino"
-                checked={sexo === "femenino"}
-                onChange={handleChangeSexo} // Aquí debe ser handleChangeSexo
               />
               <label className="form-check-label" htmlFor="femenino">
                 Femenino
@@ -196,29 +239,44 @@ const FormlarioEmpleado = ({
           <label className="form-label">Teléfono</label>
           <input
             type="number"
-            name="telefono"
+            {...register("telefono", { required: true })}
             className="form-control"
             required
-            onChange={manejarCambioInput}
           />
         </div>
-
         <div className="mb-3">
           <label className="form-label">Seleccione el Cargo</label>
-          <SelectCargoEmpleado cargo={cargo} setCargo={setCargo} />
+          <SelectCargoEmpleado register={register} />
         </div>
-
         <div className="mb-3 mt-4">
           <label className="form-label">Cambiar Foto del empleado</label>
-          <SelectFile
-            selectedFile={selectedFile}
-            handleFileChange={handleFileChange}
+          {/*  la negación !mostrarEmpleadoEditar invertirá el valor de mostrarEmpleadoEditar. Por lo tanto, si mostrarEmpleadoEditar es true, !mostrarEmpleadoEditar será false, y si mostrarEmpleadoEditar es false, !mostrarEmpleadoEditar será true.
+          Esto significa que el input será requerido cuando mostrarEmpleadoEditar sea false, y será opcional cuando mostrarEmpleadoEditar sea true.
+           required={mostrarEmpleadoEditar ? true : false}
+           */}
+          <input
+            className="form-control form-control-sm"
+            type="file"
+            name="avatar"
+            {...register("avatar", { required: !mostrarEmpleadoEditar })}
+            accept="image/png, image/jpeg"
           />
         </div>
+
+        {mostrarEmpleadoEditar && (
+          <div className="mb-3 mt-4">
+            <label className="form-label">Foto actual del Empleado</label>
+            <img
+              src={`${avatarUrl}/${dataEditarEmpleado.avatar}`}
+              className="card-img-top"
+              alt={dataEditarEmpleado.avatar}
+            />
+          </div>
+        )}
 
         <div className="d-grid gap-2">
           <button type="submit" className="btn btn-primary btn_add">
-            Registrar Empleado
+            {dataEditarEmpleado ? "Actualizar Empleado" : "Registrar Empleado"}
           </button>
         </div>
       </form>
@@ -230,9 +288,11 @@ const FormlarioEmpleado = ({
 
 FormlarioEmpleado.propTypes = {
   URL_API: PropTypes.string.isRequired,
-  mostrarEmpleadoEditar: PropTypes.bool.isRequired,
-  dataEditarEmpleado: PropTypes.object,
+  setEmpleados: PropTypes.func,
+  mostrarEmpleadoEditar: PropTypes.bool,
   setMostarEmpleadoEditar: PropTypes.func,
+  dataEditarEmpleado: PropTypes.object,
+  avatarUrl: PropTypes.string,
 };
 
 export default FormlarioEmpleado;

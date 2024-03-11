@@ -5,6 +5,7 @@ import VariablesDeEstados from "./VariablesDeEstados";
 import { ToastContainer } from "./toastConfig";
 
 const URL_API = "http://127.0.0.1:8500/api/empleados";
+const avatarUrl = "http://127.0.0.1:8500/avatars/";
 
 const HomePage = () => {
   const {
@@ -12,6 +13,8 @@ const HomePage = () => {
     setMostarEmpleadoEditar,
     dataEditarEmpleado,
     setDataEditarEmpleado,
+    empleados,
+    setEmpleados,
   } = VariablesDeEstados();
 
   return (
@@ -21,16 +24,21 @@ const HomePage = () => {
         <div className="col-md-4 border_right">
           <FormlarioEmpleado
             URL_API={URL_API}
+            setEmpleados={setEmpleados}
             mostrarEmpleadoEditar={mostrarEmpleadoEditar}
-            dataEditarEmpleado={dataEditarEmpleado}
             setMostarEmpleadoEditar={setMostarEmpleadoEditar}
+            dataEditarEmpleado={dataEditarEmpleado}
+            avatarUrl={avatarUrl}
           />
         </div>
 
         <div className="col-md-8">
           <ListaEmpleados
+            empleados={empleados}
+            setEmpleados={setEmpleados}
             setMostarEmpleadoEditar={setMostarEmpleadoEditar}
             setDataEditarEmpleado={setDataEditarEmpleado}
+            avatarUrl={avatarUrl}
           />
         </div>
       </div>

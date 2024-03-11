@@ -8,13 +8,15 @@ import { toast } from "react-toastify";
 import DetallesEmpleado from "./DetallesEmpleado";
 import TablaEmpleado from "./TablaEmpleado";
 
-const ListaEmpleados = ({ setMostarEmpleadoEditar, setDataEditarEmpleado }) => {
-  const avatarUrl = "http://127.0.0.1:8500/avatars/";
-
+const ListaEmpleados = ({
+  setMostarEmpleadoEditar,
+  setDataEditarEmpleado,
+  empleados,
+  setEmpleados,
+  avatarUrl,
+}) => {
   // Importa las variables de estado desde el componente compartido
   const {
-    empleados,
-    setEmpleados,
     dataInformacionEmpleado,
     setDataInformacionEmpleado,
     mostrarDetallesEmpleado,
@@ -61,7 +63,6 @@ const ListaEmpleados = ({ setMostarEmpleadoEditar, setDataEditarEmpleado }) => {
   };
 
   const obtenerEmpleadoParaEditar = async (IdEmpleado) => {
-    console.log(IdEmpleado);
     try {
       const response = await axios.get(`${URL_API}/${IdEmpleado}`);
       console.log("Datos del empleado para editar:", response.data);
@@ -107,8 +108,10 @@ const ListaEmpleados = ({ setMostarEmpleadoEditar, setDataEditarEmpleado }) => {
 };
 
 ListaEmpleados.propTypes = {
-  URL_API: PropTypes.string,
   setMostarEmpleadoEditar: PropTypes.func.isRequired,
   setDataEditarEmpleado: PropTypes.func.isRequired,
+  empleados: PropTypes.array,
+  setEmpleados: PropTypes.func,
+  avatarUrl: PropTypes.string,
 };
 export default ListaEmpleados;
