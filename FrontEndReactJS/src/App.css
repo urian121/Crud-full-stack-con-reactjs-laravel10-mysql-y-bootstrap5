@@ -27,6 +27,7 @@ label {
   text-decoration: none;
   display: flex;
   justify-content: space-around;
+  margin: 0 auto;
 }
 .btn-success {
   border: 1px solid #06c046 !important;
@@ -45,7 +46,7 @@ hr {
   background-color: #7366ff;
 }
 .border_right {
-  border-right: 1px solid #7366ff;
+  border-right: 1px solid #dbdbdb;
 }
 .bi-arrow-right-circle {
   font-size: 30px;
@@ -57,4 +58,7 @@ hr {
 }
 .card {
   margin: 0 auto;
+}
+.iteyOh {
+  justify-content: center !important;
 }

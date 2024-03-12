@@ -38,7 +38,7 @@ const FormlarioEmpleado = ({
       setValue("edad", dataEditarEmpleado.edad),
       setValue("cargo", dataEditarEmpleado.cargo),
       setValue("avatar", dataEditarEmpleado.avatar))
-    : null;
+    : "";
 
   const customHandleSubmit = async (data) => {
     setLoading(true);
@@ -62,7 +62,7 @@ const FormlarioEmpleado = ({
       // Simulamos un envío de formulario asíncrono
       setTimeout(() => {
         setLoading(false);
-      }, 1500);
+      }, 1000);
 
       toast.success("Empleado agregado correctamente");
       // Consulto la API para obtener la lista de empleados actualizada y actualizo la lista de empleados
@@ -71,19 +71,6 @@ const FormlarioEmpleado = ({
     } catch (error) {
       console.error("Error al agregar empleado:", error);
     }
-  };
-
-  const volverAlHomeDesdeEditar = () => {
-    setMostarEmpleadoEditar(false);
-    /**Reiniciando los valores */
-    // setValue("nombre", "");
-    setValue("nombre", (dataEditarEmpleado.nombre = ""));
-    setValue("cedula", (dataEditarEmpleado.cedula = ""));
-    setValue("sexo", dataEditarEmpleado?.sexo);
-    setValue("telefono", (dataEditarEmpleado.telefono = ""));
-    setValue("cargo", (dataEditarEmpleado.cargo = ""));
-    setValue("edad", (dataEditarEmpleado.edad = ""));
-    setValue("avatar", (dataEditarEmpleado.avatar = null));
   };
 
   const handleSubmitUpdateForm = async (data) => {
@@ -111,8 +98,6 @@ const FormlarioEmpleado = ({
       formData.append("avatar", data.avatar[0]);
     }
 
-    console.log("formData", formData);
-
     try {
       let url_put = `${URL_API}/${data.id}`;
       await axios.post(url_put, formData, {
@@ -123,12 +108,28 @@ const FormlarioEmpleado = ({
       // Simulamos un envío de formulario asíncrono
       setTimeout(() => {
         setLoading(false);
-      }, 1500);
+      }, 1000);
 
       toast.success("Empleado actualizado correctamente");
+      // Consulto la API para obtener la lista de empleados actualizada y actualizo la lista de empleados
+      const empleadosData = await obtenerEmpleados();
+      setEmpleados(empleadosData);
+      volverAlHomeDesdeEditar();
     } catch (error) {
       console.error("Error al actualizar el empleado:", error);
     }
+  };
+
+  const volverAlHomeDesdeEditar = () => {
+    setMostarEmpleadoEditar(false);
+    /**Reiniciando los valores */
+    setValue("nombre", (dataEditarEmpleado.nombre = ""));
+    setValue("cedula", (dataEditarEmpleado.cedula = ""));
+    setValue("sexo", dataEditarEmpleado?.sexo);
+    setValue("telefono", (dataEditarEmpleado.telefono = ""));
+    setValue("cargo", (dataEditarEmpleado.cargo = ""));
+    setValue("edad", (dataEditarEmpleado.edad = ""));
+    setValue("avatar", (dataEditarEmpleado.avatar = null));
   };
 
   return (

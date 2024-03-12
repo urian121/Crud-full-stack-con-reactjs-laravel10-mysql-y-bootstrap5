@@ -54,7 +54,6 @@ const ListaEmpleados = ({
   const obtenerDetallesEmpleado = async (IdEmpleado) => {
     try {
       const response = await axios.get(`${URL_API}/${IdEmpleado}`);
-      //console.log("Datos del empleado:", response.data);
       setMostarDetallesEmpleado(true);
       setDataInformacionEmpleado(response.data);
     } catch (error) {
@@ -65,7 +64,6 @@ const ListaEmpleados = ({
   const obtenerEmpleadoParaEditar = async (IdEmpleado) => {
     try {
       const response = await axios.get(`${URL_API}/${IdEmpleado}`);
-      console.log("Datos del empleado para editar:", response.data);
       setDataEditarEmpleado(response.data);
       setMostarEmpleadoEditar(true);
     } catch (error) {
