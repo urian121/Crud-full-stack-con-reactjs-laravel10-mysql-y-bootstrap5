@@ -67,15 +67,11 @@ class EmpleadoController extends Controller
 
     public function update(Request $request, $IdEmpleado)
     {
-
-        print_r($IdEmpleado);
-        dd($request->all());
-
-        /*
+        // Imprimir todos los datos recibidos en la solicitud
+        //dd($request->all());
         try {
             $datoEmpleado = Empleado::findOrFail($IdEmpleado);
-
-            // Verificar si se adjuntó un nuevo archivo de imagen
+            // Verificar si se adjuntó un nuevo archivo de imagenls
             if ($request->hasFile('avatar')) {
                 // Eliminar la imagen anterior del servidor si existe
                 if ($datoEmpleado->avatar) {
@@ -108,7 +104,6 @@ class EmpleadoController extends Controller
             // En caso de que ocurra una excepción, manejarla adecuadamente
             return response()->json(['error' => 'Error al actualizar el empleado: ' . $e->getMessage()], 500);
         }
-        */
     }
 
 

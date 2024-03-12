@@ -11,7 +11,6 @@ const TablaEmpleado = ({
       <table className="table table-striped table-hover">
         <thead>
           <tr>
-            <th scope="col">#</th>
             <th scope="col">Nombre</th>
             <th scope="col">Edad</th>
             <th scope="col">Cedula</th>
@@ -25,7 +24,6 @@ const TablaEmpleado = ({
           {empleados.map((empleado) => {
             return (
               <tr key={empleado.id}>
-                <td>{empleado.id}</td>
                 <td>{empleado.nombre}</td>
                 <td>{empleado.edad}</td>
                 <td>{empleado.cedula}</td>

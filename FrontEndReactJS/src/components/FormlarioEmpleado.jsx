@@ -28,14 +28,17 @@ const FormlarioEmpleado = ({
     /* formState: { errors }, */
   } = useForm();
 
-  setValue("id", dataEditarEmpleado?.id || "");
-  setValue("nombre", dataEditarEmpleado?.nombre || "");
-  setValue("cedula", dataEditarEmpleado?.cedula || "");
-  setValue("sexo", dataEditarEmpleado?.sexo || "masculino");
-  setValue("telefono", dataEditarEmpleado?.telefono || "");
-  setValue("cargo", dataEditarEmpleado?.cargo || "");
-  setValue("edad", dataEditarEmpleado?.edad || "");
-  setValue("avatar", dataEditarEmpleado?.avatar || "");
+  // En caso de que se quiera editar un empleado
+  mostrarEmpleadoEditar
+    ? (setValue("id", dataEditarEmpleado.id),
+      setValue("nombre", dataEditarEmpleado.nombre),
+      setValue("cedula", dataEditarEmpleado.cedula),
+      setValue("sexo", dataEditarEmpleado.sexo),
+      setValue("telefono", dataEditarEmpleado.telefono),
+      setValue("edad", dataEditarEmpleado.edad),
+      setValue("cargo", dataEditarEmpleado.cargo),
+      setValue("avatar", dataEditarEmpleado.avatar))
+    : null;
 
   const customHandleSubmit = async (data) => {
     setLoading(true);
@@ -72,7 +75,6 @@ const FormlarioEmpleado = ({
 
   const volverAlHomeDesdeEditar = () => {
     setMostarEmpleadoEditar(false);
-    console.log("volver al home");
     /**Reiniciando los valores */
     // setValue("nombre", "");
     setValue("nombre", (dataEditarEmpleado.nombre = ""));
@@ -81,62 +83,43 @@ const FormlarioEmpleado = ({
     setValue("telefono", (dataEditarEmpleado.telefono = ""));
     setValue("cargo", (dataEditarEmpleado.cargo = ""));
     setValue("edad", (dataEditarEmpleado.edad = ""));
-    setValue("avatar", (dataEditarEmpleado.avatar = ""));
+    setValue("avatar", (dataEditarEmpleado.avatar = null));
   };
 
   const handleSubmitUpdateForm = async (data) => {
-    //setLoading(true);
+    setLoading(true);
+    /**
+     * IMPORTANTE: para enviar el formulario por el metodo put, se debe enmascarar(engañar) el tipo de solicitud, diciendo con axios que la solicitud
+     * es de tipo POST, pero en realidad es de tipo PUT ya que esta agregando formData.append("_method", "PUT"); y esto define el metodo de envio.
+     * Cuando se envia directamente con axios.put(URL_API, formData, { headers: { "Content-Type": "multipart/form-data" } }) no funciona la petición
+     * por tal razon se debe usar axios.post(URL_API, formData, { headers: { "Content-Type": "multipart/form-data" } }) pero agregando el _method en el FormData
+     */
 
+    // Crear una copia de los datos del formulario, creando un objeto FormData y aignandole los valores del formulario
     const formData = new FormData();
-    formData.append("id", data.id);
+    // Agrega el campo oculto _method con el valor PUT
+    formData.append("_method", "PUT");
     formData.append("nombre", data.nombre);
     formData.append("cedula", data.cedula);
     formData.append("sexo", data.sexo);
     formData.append("telefono", data.telefono);
     formData.append("edad", data.edad);
     formData.append("cargo", data.cargo);
-    formData.append("avatar", data.avatar[0]);
 
-    // Verificar si se proporciona una nueva imagen
-    //if (data.avatar[0]) {
-    // Verifica si data.avatar[0] es igual a data.avatar
-
-    /* if (data.avatar.length > 0 && data.avatar[0] === data.avatar) {
-      console.log("data.avatar[0] es igual a data.avatar");
-    } else {
-      console.log("data.avatar[0] no es igual a data.avatar");
-    }
-    */
-
-    // Verificar si se proporciona una nueva imagen
-    console.log(data.avatar);
-    if (data.avatar && data.avatar[0]) {
-      console.log("c1");
+    // Verificar si se proporciona una nueva imagen para agregarla al FormData para ser procesada
+    if (data.avatar[0] && data.avatar[0].size > 0) {
       formData.append("avatar", data.avatar[0]);
-    } else {
-      console.log("c2");
-      formData.delete("avatar");
     }
-    // Elimina el campo "id" del FormData
-    formData.delete("id");
-    console.log(formData);
 
-    /*
+    console.log("formData", formData);
+
     try {
-      //let url = `${URL_API}/${data.id}`;
-      // Si hay una imagen adjunta, usar formData
-      if (formData.avatar && formData.avatar[0]) {
-        console.log("caso 2");
-        await axios.put(`${URL_API}/${data.id}`, formData, {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        });
-      } else {
-        console.log("caso 1");
-        // Si no hay una imagen adjunta, no necesitas enviar formData
-        await axios.put(`${URL_API}/${data.id}`, formData);
-      }
+      let url_put = `${URL_API}/${data.id}`;
+      await axios.post(url_put, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
       // Simulamos un envío de formulario asíncrono
       setTimeout(() => {
         setLoading(false);
@@ -146,7 +129,6 @@ const FormlarioEmpleado = ({
     } catch (error) {
       console.error("Error al actualizar el empleado:", error);
     }
-    */
   };
 
   return (
@@ -267,7 +249,7 @@ const FormlarioEmpleado = ({
           <div className="mb-3 mt-4">
             <label className="form-label">Foto actual del Empleado</label>
             <img
-              src={`${avatarUrl}/${dataEditarEmpleado.avatar}`}
+              src={`${avatarUrl}${dataEditarEmpleado.avatar}`}
               className="card-img-top"
               alt={dataEditarEmpleado.avatar}
             />
