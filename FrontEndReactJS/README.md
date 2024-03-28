@@ -10,6 +10,10 @@
 
     npm install --save react-toastify
 
+#### Instalar la libreria react-data-table-component para mejorar la tabla con buscador y paginación.
+   
+    npm install react-data-table-component
+
 #### Para correr el proyecto, solo basta instalar las dependencias y correr el proyecto
 
     npm install
