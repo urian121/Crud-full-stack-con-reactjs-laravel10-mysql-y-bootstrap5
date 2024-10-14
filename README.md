@@ -7,8 +7,7 @@
 ![](https://raw.githubusercontent.com/urian121/imagenes-proyectos-github/master/full-stack-laravel10-react-mysql-y-bootstrap.png)
 
 #### Nota
-
-    En la carpeta BackEndLaravel10 está la API REST desarrollada con Laravel 10 y usando el gestor de BD MySQL
+En la carpeta BackEndLaravel10 está la API REST desarrollada con Laravel 10 y usando el gestor de BD MySQL
 
 ### Expresiones de Gratitud 🎁
 
