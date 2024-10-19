@@ -219,22 +219,32 @@
 
     1. Actualizar dependencias de Composer
         composer update
-    2. Actualizar dependencias de Composer
+    2. Instalar las dependencias del Proyecto
         composer install
     3. Generar una nueva clave de aplicación
         php artisan key:generate
     4. Configurar el archivo .env:
-        Copia el archivo .env.example y renómbralo como .env.
+        Copia el archivo .env.example y renómbralo como .env
         Completa los detalles de configuración necesarios, como la configuración de la base de datos y cualquier otra configuración específica de tu entorno.
-    5. Crear la base de datos en MySQL y ejecutar migraciones
+            DB_CONNECTION=mysql
+            DB_HOST=127.0.0.1
+            DB_PORT=3306
+            DB_DATABASE=bd_api_rest_laravel_10
+            DB_USERNAME=root
+            DB_PASSWORD=
+    5. Crear la base de datos en MySQL
+        Nombre de la BD: 
+        - bd_api_rest_laravel_10 (Opcional)
+    6. Ejecuta las migraciones
         php artisan migrate
     7. Iniciar el servidor de desarrollo
-        php artisan serve
+        - php artisan serve
+        - php artisan serve --port=8500 (recomendada)
 
 #### Importante:
 
-    Si vas a correr el proycto en una Mac debes darle permiso todos los permisos a la carpeta 'avatars' esta esta ubicada en 'BackEndLaravel10/public/avatars'
-    todo esto con el fin de tener permisos para guadar imagenes del empleado.
+    Si vas a correr el proyecto en una Mac debes darle todos los permisos a la carpeta 'avatars' la misma está ubicada en 'BackEndLaravel10/public/avatars'
+    todo esto con el fin de tener permisos para guardar imagenes del empleado registrado.
 
 ### Expresiones de Gratitud 🎁
 

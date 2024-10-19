@@ -10,6 +10,7 @@ use Illuminate\Support\Str;
 class EmpleadoController extends Controller
 {
 
+    /** Función para obtener todos los empleados */
     public function index()
     {
         try {
@@ -20,9 +21,7 @@ class EmpleadoController extends Controller
         }
     }
 
-
-
-
+    /** Función para crear un nuevo empleado */
     public function store(Request $request)
     {
         try {
@@ -53,25 +52,31 @@ class EmpleadoController extends Controller
         }
     }
 
-
+    /** Función para obtener un solo empleado, de acuerdo a su id */
     public function show($IdEmpleado)
     {
         try {
+            /**
+             * findOrFail() es un método de Eloquent en Laravel que se utilizan para buscar registros en la base de datos.
+             * Similar a find, pero en lugar de devolver null si no encuentra el registro, lanza una excepción ModelNotFoundException
+             */
             $empleado = Empleado::findOrFail($IdEmpleado);
             return response()->json($empleado, 200);
         } catch (\Exception $e) {
-            return response()->json(['error' => 'Empleado no encontrado'], 404);
+            // Maneja cualquier excepción y devuelve un mensaje genérico
+            return response()->json(['error' => 'Empleado no encontrado o error inesperado'], 404);
         }
     }
 
-
+    /** Función para actualizar un empleado, de acuerdo a su id */
     public function update(Request $request, $IdEmpleado)
     {
         // Imprimir todos los datos recibidos en la solicitud
         //dd($request->all());
         try {
+            // Buscar el empleado en la base de datos
             $datoEmpleado = Empleado::findOrFail($IdEmpleado);
-            // Verificar si se adjuntó un nuevo archivo de imagenls
+            // Verificar si se adjuntó un nuevo archivo de imagen
             if ($request->hasFile('avatar')) {
                 // Eliminar la imagen anterior del servidor si existe
                 if ($datoEmpleado->avatar) {
@@ -106,28 +111,38 @@ class EmpleadoController extends Controller
         }
     }
 
-
+    /** Función para eliminar un empleado, de acuerdo a su id */
     public function destroy($IdEmpleado)
     {
         try {
+            /**
+             * Busca el empleado por su ID. Si no existe, devuelve una respuesta JSON
+             * indicando que el empleado no fue encontrado.
+             * find() es un método de Eloquent en Laravel que se utilizan para buscar registros en la base de datos.
+             */
             $empleado = Empleado::find($IdEmpleado);
 
             if (!$empleado) {
                 return response()->json(['message' => 'Empleado no encontrado'], 200);
             }
 
-            // Elimina el empleado
+            // Elimina el registro del empleado de la base de datos.
             $empleado->delete();
 
-            // Elimina el archivo de imagen si existe
+            // Verifica si el empleado tiene una imagen de avatar y la elimina del sistema de archivos
             if ($empleado->avatar) {
+                // Construye la ruta completa del archivo de la imagen en el servidor.
                 $path = public_path('avatars/' . $empleado->avatar);
+                // Verifica si el archivo existe antes de intentar eliminarlo.
                 if (file_exists($path)) {
-                    unlink($path);
+                    unlink($path); // Elimina el archivo de la imagen.
                 }
             }
+
+            // Devuelve una respuesta JSON indicando que el empleado fue eliminado correctamente.
             return response()->json(['message' => 'Empleado eliminado correctamente'], 200);
         } catch (\Exception $e) {
+            // Captura cualquier excepción que ocurra y devuelve un mensaje de error.
             return response()->json(['error' => 'No se pudo eliminar el empleado: ' . $e->getMessage()], 500);
         }
     }
