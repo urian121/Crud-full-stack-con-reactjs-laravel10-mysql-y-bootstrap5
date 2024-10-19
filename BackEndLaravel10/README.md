@@ -246,6 +246,13 @@
     Si vas a correr el proyecto en una Mac debes darle todos los permisos a la carpeta 'avatars' la misma está ubicada en 'BackEndLaravel10/public/avatars'
     todo esto con el fin de tener permisos para guardar imagenes del empleado registrado.
 
+    Material de Apoyo
+    👉 𝗖𝗼́𝗺𝗼 𝗰𝗿𝗲𝗮𝗿 𝘂𝗻𝗮 𝗔𝗣𝗜 𝗥𝗘𝗦𝗧 𝗲𝗻 𝗟𝗮𝗿𝗮𝘃𝗲𝗹 𝟭𝟬 𝘆 𝗠𝘆𝗦𝗤𝗟: 𝗚𝘂𝗶𝗮 𝗽𝗮𝘀𝗼 𝗮 𝗽𝗮𝘀𝗼 🚀
+        https://www.youtube.com/watch?v=6F4QoOBb9KI
+
+    👉 𝗖𝗥𝗨𝗗 (𝗖𝗿𝗲𝗮𝗿, 𝗟𝗲𝗲𝗿, 𝗔𝗰𝘁𝘂𝗮𝗹𝗶𝘇𝗮𝗿 𝘆 𝗘𝗹𝗶𝗺𝗶𝗻𝗮𝗿) 𝗰𝗼𝗻 𝗟𝗮𝗿𝗮𝘃𝗲𝗹 𝟭𝟬, 𝗠𝘆𝗦𝗤𝗟 𝘆 𝗕𝗼𝗼𝘁𝘀𝘁𝗿𝗮𝗽 𝟱 🤯
+        https://www.youtube.com/watch?v=VOsBI09pKPE
+
 ### Expresiones de Gratitud 🎁
 
     Comenta a otros sobre este proyecto 📢
