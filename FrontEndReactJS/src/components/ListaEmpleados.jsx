@@ -1,9 +1,10 @@
 import axios from "axios";
-import PropTypes from "prop-types";
 import { obtenerEmpleados, URL_API } from "./funciones";
 import VariablesDeEstados from "./VariablesDeEstados";
 import { useEffect } from "react";
-import { toast } from "react-toastify";
+
+// importando la funcion toast Librería nextjs-toast-notify para las alertas
+import { toast } from "nextjs-toast-notify";
 
 import DetallesEmpleado from "./DetallesEmpleado";
 import TablaEmpleado from "./TablaEmpleado";
@@ -83,7 +84,8 @@ const ListaEmpleados = ({
       <i
         title="Volver a Home"
         className="bi bi-arrow-left-circle float-start"
-        onClick={volverHome}></i>
+        onClick={volverHome}
+      ></i>
       <DetallesEmpleado
         dataInformacionEmpleado={dataInformacionEmpleado}
         avatarUrl={avatarUrl}
@@ -103,13 +105,5 @@ const ListaEmpleados = ({
       />
     </>
   );
-};
-
-ListaEmpleados.propTypes = {
-  setMostarEmpleadoEditar: PropTypes.func.isRequired,
-  setDataEditarEmpleado: PropTypes.func.isRequired,
-  empleados: PropTypes.array,
-  setEmpleados: PropTypes.func,
-  avatarUrl: PropTypes.string,
 };
 export default ListaEmpleados;

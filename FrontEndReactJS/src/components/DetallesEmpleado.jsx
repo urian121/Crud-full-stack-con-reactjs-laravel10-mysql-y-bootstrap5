@@ -1,5 +1,3 @@
-import PropTypes from "prop-types";
-
 const DetallesEmpleado = ({ dataInformacionEmpleado, avatarUrl }) => {
   // console.log("-detalles*---", dataInformacionEmpleado);
 
@@ -34,11 +32,6 @@ const DetallesEmpleado = ({ dataInformacionEmpleado, avatarUrl }) => {
       </ul>
     </div>
   );
-};
-
-DetallesEmpleado.propTypes = {
-  dataInformacionEmpleado: PropTypes.object,
-  avatarUrl: PropTypes.string,
 };
 
 export default DetallesEmpleado;

@@ -2,7 +2,8 @@ import FormlarioEmpleado from "./FormlarioEmpleado";
 import ListaEmpleados from "./ListaEmpleados";
 import VariablesDeEstados from "./VariablesDeEstados";
 
-import { ToastContainer } from "./toastConfig";
+// importando Librería para las alertas
+import "nextjs-toast-notify/dist/nextjs-toast-notify.css";
 
 const URL_API = "http://127.0.0.1:8500/api/empleados";
 const avatarUrl = "http://127.0.0.1:8500/avatars/";
@@ -19,7 +20,6 @@ const HomePage = () => {
 
   return (
     <>
-      <ToastContainer />
       <div className="row justify-content-md-center">
         <div className="col-md-4 border_right">
           <FormlarioEmpleado

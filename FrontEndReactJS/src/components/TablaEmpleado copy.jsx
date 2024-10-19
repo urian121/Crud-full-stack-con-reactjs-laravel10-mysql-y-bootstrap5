@@ -1,5 +1,3 @@
-import PropTypes from "prop-types";
-
 const TablaEmpleado = ({
   empleados,
   avatarUrl,
@@ -44,7 +42,8 @@ const TablaEmpleado = ({
                       <span
                         title={`Detalles del empleado ${empleado.nombre}`}
                         onClick={() => obtenerDetallesEmpleado(empleado.id)}
-                        className="btn btn-success">
+                        className="btn btn-success"
+                      >
                         <i className="bi bi-binoculars"></i>
                       </span>
                     </li>
@@ -52,7 +51,8 @@ const TablaEmpleado = ({
                       <span
                         title={`Editar datos del empleado ${empleado.nombre}`}
                         className="btn btn-primary"
-                        onClick={() => obtenerEmpleadoParaEditar(empleado.id)}>
+                        onClick={() => obtenerEmpleadoParaEditar(empleado.id)}
+                      >
                         <i className="bi bi-pencil-square"></i>
                       </span>
                     </li>
@@ -61,7 +61,8 @@ const TablaEmpleado = ({
                         title={`Borrar empleado ${empleado.nombre}`}
                         className="btn btn-danger"
                         type="button"
-                        onClick={() => eliminarEmpleado(empleado.id)}>
+                        onClick={() => eliminarEmpleado(empleado.id)}
+                      >
                         <i className="bi bi-trash3"></i>
                       </button>
                     </li>
@@ -75,13 +76,4 @@ const TablaEmpleado = ({
     </div>
   );
 };
-
-TablaEmpleado.propTypes = {
-  empleados: PropTypes.array.isRequired,
-  avatarUrl: PropTypes.string.isRequired,
-  eliminarEmpleado: PropTypes.func.isRequired,
-  obtenerDetallesEmpleado: PropTypes.func.isRequired,
-  obtenerEmpleadoParaEditar: PropTypes.func.isRequired,
-};
-
 export default TablaEmpleado;

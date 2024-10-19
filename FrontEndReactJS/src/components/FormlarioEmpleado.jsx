@@ -1,9 +1,9 @@
-import PropTypes from "prop-types";
 import { obtenerEmpleados } from "./funciones";
 import axios from "axios";
 import { useForm } from "react-hook-form";
 
-import { toast } from "./toastConfig";
+// importando la funcion toast Librería nextjs-toast-notify para las alertas
+import { toast } from "nextjs-toast-notify";
 import VariablesDeEstados from "./VariablesDeEstados";
 import "../styles/loading.css";
 
@@ -139,7 +139,8 @@ const FormlarioEmpleado = ({
           <i
             title="Volver a Home"
             className="bi bi-arrow-left-circle float-start"
-            onClick={volverAlHomeDesdeEditar}></i>
+            onClick={volverAlHomeDesdeEditar}
+          ></i>
           Editar empleado <hr />
         </h4>
       ) : (
@@ -155,7 +156,8 @@ const FormlarioEmpleado = ({
             : handleSubmit(customHandleSubmit)
         }
         method="POST"
-        encType="multipart/form-data">
+        encType="multipart/form-data"
+      >
         {mostrarEmpleadoEditar && (
           <input
             type="text"
@@ -267,15 +269,6 @@ const FormlarioEmpleado = ({
       {loading && <Loading />}
     </>
   );
-};
-
-FormlarioEmpleado.propTypes = {
-  URL_API: PropTypes.string.isRequired,
-  setEmpleados: PropTypes.func,
-  mostrarEmpleadoEditar: PropTypes.bool,
-  setMostarEmpleadoEditar: PropTypes.func,
-  dataEditarEmpleado: PropTypes.object,
-  avatarUrl: PropTypes.string,
 };
 
 export default FormlarioEmpleado;

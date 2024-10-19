@@ -2,22 +2,24 @@
 
 ##### CRUD Full Stack con ReactJS, Laravel 10 y MySQL es un proyecto web completo que combina tecnologías modernas en el frontend y backend. Utiliza ReactJS para una interfaz dinámica, Laravel 10 para la lógica de negocio robusta, y MySQL para la persistencia de datos confiable. Con operaciones CRUD completas, ofrece una experiencia de desarrollo eficiente y una gestión de datos intuitiva y ágil.
 
-##### Instalar axios, para mejorar las solicitudes HTTP a la API
+#### Instalar axios, para mejorar las solicitudes HTTP a la API
 
     npm i axios
 
-#### Instalar la libreria react-toastify para crear las alertas.
+#### Instalar la Librería Nextjs Toast Notify para crear las alertas.
+    👉 npm i nextjs-toast-notify
+    👉 https://www.npmjs.com/package/nextjs-toast-notify
+    👉 https://www.nextjstoastnotify.com/
 
-    npm install --save react-toastify
-
-#### Instalar la libreria react-data-table-component para mejorar la tabla con buscador y paginación.
+#### Instalar la Librería react-data-table-component para mejorar la tabla con buscador y paginación.
    
     npm install react-data-table-component
 
-#### Para correr el proyecto, solo basta instalar las dependencias y correr el proyecto
+#### Pasos para correr el proyecto
 
     npm install
     npm run dev
+    visitar http://localhost:5173
 
 #### Resultado final
 

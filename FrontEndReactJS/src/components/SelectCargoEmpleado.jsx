@@ -1,4 +1,3 @@
-import PropTypes from "prop-types";
 const SelectCargo = ({ register }) => {
   const cargos = [
     "Gerente",
@@ -21,15 +20,11 @@ const SelectCargo = ({ register }) => {
     <select
       {...register("cargo", { required: true })}
       className="form-select"
-      required>
+      required
+    >
       <option value="">Seleccione el Cargo</option>
       {options}
     </select>
   );
 };
-
-SelectCargo.propTypes = {
-  register: PropTypes.func.isRequired,
-};
-
 export default SelectCargo;
