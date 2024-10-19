@@ -6,6 +6,9 @@ import { useEffect } from "react";
 // importando la funcion toast Librería nextjs-toast-notify para las alertas
 import { toast } from "nextjs-toast-notify";
 
+// importando la Librería loading-request para agregar un efecto Loading mientras se realiza una solicitud HTTP con Javascript
+import { showLoading, hideLoading } from "loading-request";
+
 import DetallesEmpleado from "./DetallesEmpleado";
 import TablaEmpleado from "./TablaEmpleado";
 
@@ -37,15 +40,28 @@ const ListaEmpleados = ({
    * Función para eliminar un empleado
    */
   const eliminarEmpleado = async (idEmpleado) => {
+    // Agregando función showLoading para inabilitar la pantalla mientras se realiza la petición HTTP
+    showLoading({
+      message: "eliminando el empleado...",
+      spinnerColor: "#8201ff",
+      textLoadingColor: "#8201ff",
+      textLoadingSize: "20px",
+    });
+
     try {
       await axios.delete(`${URL_API}/${idEmpleado}`);
       const nuevaListaEmpleados = empleados.filter(
         (empleado) => empleado.id !== idEmpleado
       );
-      toast.success("Empleado eliminado correctamente");
+      toast.success("Empleado eliminado correctamente", {
+        sonido: true,
+      });
       setEmpleados(nuevaListaEmpleados);
     } catch (error) {
       console.error("Error al eliminar el empleado:", error);
+    } finally {
+      // Agregando función hideLoading para habilitar la pantalla
+      hideLoading({ timeLoading: 1000 });
     }
   };
 

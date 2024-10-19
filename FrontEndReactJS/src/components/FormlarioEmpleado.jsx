@@ -4,12 +4,12 @@ import { useForm } from "react-hook-form";
 
 // importando la funcion toast Librería nextjs-toast-notify para las alertas
 import { toast } from "nextjs-toast-notify";
-import VariablesDeEstados from "./VariablesDeEstados";
-import "../styles/loading.css";
+
+// importando la Librería loading-request para agregar un efecto Loading mientras se realiza una solicitud HTTP con Javascript
+import { showLoading, hideLoading } from "loading-request";
 
 import SelectEdad from "./SelectEdad";
 import SelectCargoEmpleado from "./SelectCargoEmpleado";
-import Loading from "./Loading";
 
 const FormlarioEmpleado = ({
   URL_API,
@@ -19,8 +19,6 @@ const FormlarioEmpleado = ({
   dataEditarEmpleado,
   avatarUrl,
 }) => {
-  const { loading, setLoading } = VariablesDeEstados();
-
   const {
     register,
     handleSubmit,
@@ -41,7 +39,13 @@ const FormlarioEmpleado = ({
     : "";
 
   const customHandleSubmit = async (data) => {
-    setLoading(true);
+    // Agregando función showLoading para inabilitar la pantalla mientras se realiza la petición HTTP
+    showLoading({
+      message: "Enviando información...",
+      spinnerColor: "#8201ff",
+      textLoadingColor: "#8201ff",
+      textLoadingSize: "20px",
+    });
 
     const formData = new FormData();
     formData.append("nombre", data.nombre);
@@ -59,22 +63,35 @@ const FormlarioEmpleado = ({
         },
       });
 
-      // Simulamos un envío de formulario asíncrono
-      setTimeout(() => {
-        setLoading(false);
-      }, 1000);
+      //setLoading(false);
+      toast.success("Empleado agregado correctamente", {
+        duration: 4000,
+        progress: true,
+        position: "top-right",
+        transition: "swingInverted",
+        icon: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-check"><path d="M20 6 9 17l-5-5"/></svg>',
+        sonido: true,
+      });
 
-      toast.success("Empleado agregado correctamente");
       // Consulto la API para obtener la lista de empleados actualizada y actualizo la lista de empleados
       const empleadosData = await obtenerEmpleados();
       setEmpleados(empleadosData);
     } catch (error) {
       console.error("Error al agregar empleado:", error);
+    } finally {
+      // Agregando función hideLoading para habilitar la pantalla
+      hideLoading({ timeLoading: 1500 });
     }
   };
 
   const handleSubmitUpdateForm = async (data) => {
-    setLoading(true);
+    showLoading({
+      message: "eliminando el empleado...",
+      spinnerColor: "#8201ff",
+      textLoadingColor: "#8201ff",
+      textLoadingSize: "20px",
+    });
+
     /**
      * IMPORTANTE: para enviar el formulario por el metodo put, se debe enmascarar(engañar) el tipo de solicitud, diciendo con axios que la solicitud
      * es de tipo POST, pero en realidad es de tipo PUT ya que esta agregando formData.append("_method", "PUT"); y esto define el metodo de envio.
@@ -105,18 +122,19 @@ const FormlarioEmpleado = ({
           "Content-Type": "multipart/form-data",
         },
       });
-      // Simulamos un envío de formulario asíncrono
-      setTimeout(() => {
-        setLoading(false);
-      }, 1000);
 
-      toast.success("Empleado actualizado correctamente");
+      toast.success("Empleado actualizado correctamente", {
+        transition: "bounceIn",
+        sonido: true,
+      });
       // Consulto la API para obtener la lista de empleados actualizada y actualizo la lista de empleados
       const empleadosData = await obtenerEmpleados();
       setEmpleados(empleadosData);
       volverAlHomeDesdeEditar();
     } catch (error) {
       console.error("Error al actualizar el empleado:", error);
+    } finally {
+      hideLoading({ timeLoading: 1000 });
     }
   };
 
@@ -265,8 +283,6 @@ const FormlarioEmpleado = ({
           </button>
         </div>
       </form>
-
-      {loading && <Loading />}
     </>
   );
 };

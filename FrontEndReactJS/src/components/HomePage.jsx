@@ -2,8 +2,10 @@ import FormlarioEmpleado from "./FormlarioEmpleado";
 import ListaEmpleados from "./ListaEmpleados";
 import VariablesDeEstados from "./VariablesDeEstados";
 
-// importando Librería para las alertas
+// Importando nextjs-toast-notify.css para las alertas, forma parte del paquete nextjs-toast-notify
 import "nextjs-toast-notify/dist/nextjs-toast-notify.css";
+// Importando index.css para agregar un efecto Loading mientras se realiza una solicitud HTTP con Javascript
+import "loading-request/dist/index.css";
 
 const URL_API = "http://127.0.0.1:8500/api/empleados";
 const avatarUrl = "http://127.0.0.1:8500/avatars/";

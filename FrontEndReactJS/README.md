@@ -10,6 +10,12 @@
     👉 npm i nextjs-toast-notify
     👉 https://www.npmjs.com/package/nextjs-toast-notify
     👉 https://www.nextjstoastnotify.com/
+    👉 https://www.youtube.com/watch?v=mVY0iprskvQ
+
+#### instalar la Librería loading-request para agregar un efecto Loading mientras se realiza una solicitud HTTP con Javascript
+    👉 npm i loading-request
+    👉 https://www.npmjs.com/package/loading-request
+    👉 https://www.youtube.com/watch?v=1SHAlJYXvok&t=8s
 
 #### Instalar la Librería react-data-table-component para mejorar la tabla con buscador y paginación.
    

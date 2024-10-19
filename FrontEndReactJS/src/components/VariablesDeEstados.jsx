@@ -1,6 +1,5 @@
 import { useState } from "react";
 const VariablesDeEstados = () => {
-  const [loading, setLoading] = useState(false); // Para manejar el estado de carga cuando se enviar el formulario
   const [mostrarDetallesEmpleado, setMostarDetallesEmpleado] = useState(false); // Para manejar el estado del detalles del empleado
   const [dataInformacionEmpleado, setDataInformacionEmpleado] = useState({}); // Almacenar informacion del empleado cuando se observa detalles del mismo
   const [dataEditarEmpleado, setDataEditarEmpleado] = useState({}); // Almacenar informacion del empleado para editar
@@ -9,8 +8,6 @@ const VariablesDeEstados = () => {
   const [empleados, setEmpleados] = useState([]); // Para almacenar la lista de empleados
 
   return {
-    loading,
-    setLoading,
     empleados,
     setEmpleados,
     mostrarDetallesEmpleado,
